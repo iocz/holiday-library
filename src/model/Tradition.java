@@ -13,4 +13,28 @@ public class Tradition {
         this.country = country;
         this.description = "";
     }
+    
+     public Holiday getHoliday() {
+        return holiday;
+    }
+
+    public void setHoliday(Holiday holiday) {
+        this.holiday = holiday;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
