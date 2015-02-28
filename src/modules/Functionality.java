@@ -3,6 +3,8 @@ package modules;
 import model.Holiday;
 import model.Country;
 import model.Tradition;
+import java.util.List;
+import java.util.Date;
 
 public class Functionality {
     private List<Holiday> h_list;
@@ -45,45 +47,46 @@ public class Functionality {
         }
         return index;
     }
-    /**
-     * @param tradition Изменяемая традиция
-     * @param newDescription Новое описание
-     */
-    //change description.
-    public void edit(Tradition tradition, string newDescription){
-        int index = searchIndex(tradition);
-        tradition.setDescription(newDescription);
-        //Замена элемента.
-        t_list.set(index, tradition);
-    }
     //change country.
     public void edit(Tradition tradition, Country newCountry){
         int index = searchIndex(tradition);
         tradition.setCountry(newCountry);
         t_list.set(index, tradition);
     }
-    //change country name.
-    public void edit(Tradition tradition, string newCountry){
+    /**
+     * 
+     * @param tradition Изменяемая традиция.
+     * @param newStr Новое строковое значение.
+     * @param param 1 - set new description;
+     *              2 - set new country name;
+     *              3 - set new holiday name.
+     */
+    public void edit(Tradition tradition, String newStr, int param){
         int index = searchIndex(tradition);
-        tradition.getCountry().setName(newCountry);
-        t_list.set(index, tradition);
-    }
-    //change holiday -> name
-    public void edit(Tradition tradition, string newName){
-        int index = searchIndex(tradition);
-        tradition.getHoliday().setName(newName);
+        switch (param) {
+            case 1 : tradition.setDescription(newStr); break;
+            case 2 : tradition.getCountry().setName(newStr); break;
+            case 3 : tradition.getHoliday().setName(newStr); break;
+            default: break;
+        }
         t_list.set(index, tradition);
     }
     //change holiday -> dateStart
-    public void edit(Tradition tradition, date dateStart){
+
+    /**
+     * 
+     * @param tradition Изменяемая традиция
+     * @param newDate Новая дата.
+     * @param param 1 - change start date;
+     *              2 - change end date.
+     */
+    public void edit(Tradition tradition, Date newDate, int param){
         int index = searchIndex(tradition);
-        tradition.getHoliday().setStartDate(dateStart);
-        t_list.set(index, tradition);
-    }
-    //change holiday -> dateEnd
-    public void edit(Tradition tradition, date dateEnd){
-        int index = searchIndex(tradition);
-        tradition.getHoliday().setStartDate(dateEnd);
+        switch (param){
+            case 1 : tradition.getHoliday().setStartDate(newDate); break;
+            case 2 : tradition.getHoliday().setEndDate(newDate); break;
+            default: break;
+        }
         t_list.set(index, tradition);
     }
     //remove
