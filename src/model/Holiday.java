@@ -41,4 +41,20 @@ public class Holiday {
 
         return String.format("Праздник %s празднуется %s",name,s);//"Праздник "+ name + " празднуется в стране " + country.getName() + " с " + startDate + " по " + endDate;
     }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setType(HolidayType type) {
+        this.type = type;
+    }
 }
