@@ -2,96 +2,187 @@ package modules;
 
 import model.Holiday;
 import model.Country;
+import model.HolidayType;
 import model.Tradition;
+
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 public class Functionality {
-    private List<Holiday> h_list;
-    private List<Country> c_list;
-    private List<Tradition> t_list;
+    //private static List<Holiday> h_list;
+    //private static List<Country> c_list;
+    //private static List<Tradition> t_list;
+    protected static ResourceBundle stringsBundle = null;
+    private static PrintWriter out = new PrintWriter(System.out, true);
     /*****************************
      * Constructors
      *****************************/
-    public Functionality() { }
+    //public Functionality() { }
     /****************************
      * Methods
      ****************************/
     //Заполняем списки.
-    public void add(Tradition tradition,
-                    List<Holiday> h_list, List<Country> c_list, List<Tradition> t_list){
-        this.h_list = h_list;
-        this.c_list = c_list;
-        this.t_list = t_list;
-        h_list.add(tradition.getHoliday());
-        c_list.add(tradition.getCountry());
-        t_list.add(tradition);
+    //Добавить новую страну.
+    public static void add(String name, List<Country> list){
+        try {
+            Country country = new Country(name);
+            list.add(country);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     /*
-    public void add(Holiday holiday, Country country, Tradition tradition,
-                    List<Holiday> h_list, List<Country> c_list, List<Tradition> t_list){
-        this.h_list = h_list;
-        this.c_list = c_list;
-        this.t_list = t_list;
-        h_list.add(holiday);
+    public static void add(Country country, List<Country> c_list){
         c_list.add(country);
-        t_list.add(tradition);
     }
     */
-    private int searchIndex(Tradition tradition){
+    //Добавить новый праздник.
+    public static void add(List<Holiday> h_list, String name ){
+        try {
+            Holiday holiday = new Holiday(name);
+            h_list.add(holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void add(List<Holiday> h_list, String name, int typeNum){
+        try {
+            Holiday holiday = new Holiday(name, typeNum);
+            h_list.add(holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void add(List<Holiday> h_list, String name, Date start,  Date end, int typeNum){
+        try {
+            Holiday holiday = new Holiday(name, start, end, typeNum);
+            h_list.add(holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    //Добавить традицию.
+    public static void add(Holiday holiday, Country country, List<Tradition> t_list){
+        try {
+            Tradition tradition = new Tradition(holiday, country);
+            t_list.add(tradition);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void add(Holiday holiday, String description, Country country, List<Tradition> t_list){
+        try {
+            Tradition tradition = new Tradition(holiday, country);
+            tradition.setDescription(description);
+            t_list.add(tradition);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    private static int searchIndex(Tradition tradition, List<Tradition> t_list){
         int index = -1;
-        for (Tradition item : t_list){
+            for (Tradition item : t_list) {
+                //tradition.equals(item) ? index = t_list.indexOf(item) : continue;
+                if (tradition.equals(item))
+                    index = t_list.indexOf(item);
+            }
+            return index;
+            //if (index == -1) {throw new RuntimeException();}
+    }
+    private static int searchIndex(Holiday holiday, List<Holiday> h_list){
+        int index = -1;
+        for (Holiday item : h_list){
             //tradition.equals(item) ? index = t_list.indexOf(item) : continue;
-            if (tradition.equals(item))
-                index = t_list.indexOf(item);
+            if (holiday.equals(item))
+                index = h_list.indexOf(item);
         }
         return index;
     }
-    //change country.
-    public void edit(Tradition tradition, Country newCountry){
-        int index = searchIndex(tradition);
-        tradition.setCountry(newCountry);
-        t_list.set(index, tradition);
-    }
-    /**
-     * 
-     * @param tradition Изменяемая традиция.
-     * @param newStr Новое строковое значение.
-     * @param param 1 - set new description;
-     *              2 - set new country name;
-     *              3 - set new holiday name.
-     */
-    public void edit(Tradition tradition, String newStr, int param){
-        int index = searchIndex(tradition);
-        switch (param) {
-            case 1 : tradition.setDescription(newStr); break;
-            case 2 : tradition.getCountry().setName(newStr); break;
-            case 3 : tradition.getHoliday().setName(newStr); break;
-            default: break;
+    private static int searchIndex(Country country, List<Country> c_list){
+        int index = -1;
+        for (Country item : c_list){
+            //tradition.equals(item) ? index = t_list.indexOf(item) : continue;
+            if (country.equals(item))
+                index = c_list.indexOf(item);
         }
-        t_list.set(index, tradition);
+        return index;
     }
-    //change holiday -> dateStart
-
-    /**
-     * 
-     * @param tradition Изменяемая традиция
-     * @param newDate Новая дата.
-     * @param param 1 - change start date;
-     *              2 - change end date.
-     */
-    public void edit(Tradition tradition, Date newDate, int param){
-        int index = searchIndex(tradition);
-        switch (param){
-            case 1 : tradition.getHoliday().setStartDate(newDate); break;
-            case 2 : tradition.getHoliday().setEndDate(newDate); break;
-            default: break;
+    public static void edit(List<Tradition> t_list, Tradition tradition, String newStr, int param){
+        try {
+            int index = searchIndex(tradition, t_list);
+            switch (param) {
+                case 1:
+                    tradition.setDescription(newStr);
+                    break;
+                case 2:
+                    tradition.getCountry().setName(newStr);
+                    break;
+                case 3:
+                    tradition.getHoliday().setName(newStr);
+                    break;
+                default:
+                    break;
+            }
+            t_list.set(index, tradition);
         }
-        t_list.set(index, tradition);
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    //Изменение страны.
+    public static void edit(List<Country> c_list, Country country, String newName){
+        try {
+            int index = searchIndex(country, c_list);
+            country.setName(newName);
+            c_list.set(index, country);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    //Изменение праздника.
+    public static void edit(List<Holiday> h_list, Holiday holiday, String newName){
+        try {
+            int index = searchIndex(holiday, h_list);
+            holiday.setName(newName);
+            h_list.set(index, holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
+                                        HolidayType type){
+        try {
+            int index = searchIndex(holiday, h_list);
+            holiday.setName(newName);
+            holiday.setType(type);
+            h_list.set(index, holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
+                            Date start, Date end, HolidayType type){
+        try {
+            int index = searchIndex(holiday, h_list);
+            holiday.setName(newName);
+            holiday.setType(type);
+            holiday.setStartDate(start);
+            holiday.setEndDate(end);
+            h_list.set(index, holiday);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //remove
-    public void remove(Tradition tradition){
-        int index = searchIndex(tradition);
-        t_list.remove(index);
+    public static void remove(Tradition tradition, List<Tradition> t_list){
+        try {
+            int index = searchIndex(tradition, t_list);
+            t_list.remove(index);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void remove(Country country, List<Country> c_list){
+        try {
+            int index = searchIndex(country, c_list);
+            c_list.remove(index);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
+    }
+    public static void remove(Holiday holiday, List<Holiday> h_list){
+        try {
+            int index = searchIndex(holiday, h_list);
+            h_list.remove(index);
+        }
+        catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
 }
