@@ -121,6 +121,7 @@ public class Functionality {
             }
             t_list.set(index, tradition);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //Изменение страны.
@@ -130,6 +131,7 @@ public class Functionality {
             country.setName(newName);
             c_list.set(index, country);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //Изменение праздника.
@@ -139,6 +141,7 @@ public class Functionality {
             holiday.setName(newName);
             h_list.set(index, holiday);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
@@ -149,6 +152,7 @@ public class Functionality {
             holiday.setType(type);
             h_list.set(index, holiday);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
@@ -161,14 +165,19 @@ public class Functionality {
             holiday.setEndDate(end);
             h_list.set(index, holiday);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //remove
-    public static void remove(Tradition tradition, List<Tradition> t_list){
+    public static void remove(Tradition tradition, List<Tradition> t_list,
+                              List<Country> c_list, List<Holiday> h_list){
         try {
             int index = searchIndex(tradition, t_list);
             t_list.remove(index);
+            remove(tradition.getCountry(), c_list);
+            remove(tradition.getHoliday(), h_list);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void remove(Country country, List<Country> c_list){
@@ -176,6 +185,7 @@ public class Functionality {
             int index = searchIndex(country, c_list);
             c_list.remove(index);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void remove(Holiday holiday, List<Holiday> h_list){
@@ -183,6 +193,7 @@ public class Functionality {
             int index = searchIndex(holiday, h_list);
             h_list.remove(index);
         }
+        catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
 }
