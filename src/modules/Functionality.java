@@ -83,8 +83,8 @@ public class Functionality {
                 if (tradition.equals(item))
                     index = t_list.indexOf(item);
             }
-            return index;
-            //if (index == -1) {throw new RuntimeException();}
+            if (index == -1) throw new IllegalArgumentException("Index not found");
+        return index;
     }
     private static int searchIndex(Holiday holiday, List<Holiday> h_list){
         int index = -1;
@@ -93,6 +93,7 @@ public class Functionality {
             if (holiday.equals(item))
                 index = h_list.indexOf(item);
         }
+        if (index == -1) throw new IllegalArgumentException("Index not found");
         return index;
     }
     private static int searchIndex(Country country, List<Country> c_list){
@@ -102,6 +103,7 @@ public class Functionality {
             if (country.equals(item))
                 index = c_list.indexOf(item);
         }
+        if (index == -1) throw new IllegalArgumentException("Index not found");
         return index;
     }
     public static void edit(List<Tradition> t_list, Tradition tradition, String newStr, int param){
@@ -122,7 +124,7 @@ public class Functionality {
             }
             t_list.set(index, tradition);
         }
-        //catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //Изменение страны.
@@ -132,6 +134,7 @@ public class Functionality {
             country.setName(newName);
             c_list.set(index, country);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //Изменение праздника.
@@ -141,6 +144,7 @@ public class Functionality {
             holiday.setName(newName);
             h_list.set(index, holiday);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
@@ -151,6 +155,7 @@ public class Functionality {
             holiday.setType(type);
             h_list.set(index, holiday);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void edit(List<Holiday> h_list, Holiday holiday, String newName,
@@ -163,6 +168,7 @@ public class Functionality {
             holiday.setEndDate(end);
             h_list.set(index, holiday);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     //remove
@@ -174,7 +180,7 @@ public class Functionality {
             remove(tradition.getCountry(), c_list);
             remove(tradition.getHoliday(), h_list);
         }
-        //catch (IndexOutOfBoundsException exc) {out.println(stringsBundle.getString("WRONG_INDEX"));}
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void remove(Country country, List<Country> c_list){
@@ -182,6 +188,7 @@ public class Functionality {
             int index = searchIndex(country, c_list);
             c_list.remove(index);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
     public static void remove(Holiday holiday, List<Holiday> h_list){
@@ -189,6 +196,7 @@ public class Functionality {
             int index = searchIndex(holiday, h_list);
             h_list.remove(index);
         }
+        catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
     }
 }
