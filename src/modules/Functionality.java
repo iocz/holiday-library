@@ -187,6 +187,7 @@ public class Functionality {
         try {
             int index = searchIndex(country, c_list);
             c_list.remove(index);
+            c_list.add(index, null);
         }
         catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
@@ -195,6 +196,7 @@ public class Functionality {
         try {
             int index = searchIndex(holiday, h_list);
             h_list.remove(index);
+            h_list.add(index, null);
         }
         catch (IllegalArgumentException exc) {out.println(stringsBundle.getString("Index_ERROR"));}
         catch (Exception exc) {out.println(stringsBundle.getString("ERROR"));}
